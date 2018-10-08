@@ -1,0 +1,13 @@
+{
+    "learning_rate": 1e-3,
+    "batch_size": 5,
+    "num_epochs": 5000,
+    "vocab_size": 15002,
+    "number_of_tags":11,
+    "pad_word": "<PAD>",
+    "lstm_hidden_dim": 100,
+    "embedding_dim": 200,
+    "cuda": false,
+    "train_size": 25,
+    "save_summary_steps": 100
+}
