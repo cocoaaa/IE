@@ -74,9 +74,9 @@ rather than giving a high weight for more generalizable features like POS and su
 
 3. Regularized model
 Even the best performing model from the cross-validation still suffers from giving high weights to word-spefici features.
-In order to alleviate this, I tried regularization.  ![Table 4](images/crf_reg_performances.png)' shows the regularized 
-model's performaces, and ![Table 5](images/crf_reg_weights.png) 
-shows the learned weights and transition probabilities 
+In order to alleviate this, I tried regularization.  ![Table 4](images/crf_reg_train_performances.png) shows the regularized 
+model's performaces on the training set, and ![Table5](images/crf_reg_dev_performances.png) shows the performances 
+on the dev set (ie. `testa`). ![Table 6](images/crf_reg_weights.png) shows the learned weights and transition probabilities 
 
 
 ## Summary
@@ -84,9 +84,12 @@ I used both word-specific features (eg. the word itself, its part-of-speech, suf
 as the features from its direct neighbors to train the CRF model.  Using the cross-validation, I searched the 
 hyperparameter spaces and tuned the model.  The best CV settings were used to train the model on the entire 
 training set.  As a result, the best CV model achieved 0.9 precision, 0.874 recall and 0.887 f1-score on the
-provided test set.  Its learned pfeature weights and label transition probabilities are showned in Table 3.
+provided test set.  Its learned weights and transition probabilities are showned in Table 3. In order to alleviate
+the overfitting observed in our cross-validated model, I retrained the model with regularization.  The results on
+train and dev sets are shown in Table 4 and 5, and the learned parameters are shown in Table 6.  However, I would
+like to note that the scores from training set and dev set suggests the model is still overfitted. 
 
-I use this model to make a prediction on `testb`.  The resulting predictions are saved as 
+I use this regularized model to make a prediction on `testb`.  The predicted tags are saved as 
 `report/predictions/crf.bio` for the BIO scheme and `report/predictions/crf.ibo` for the IBO scheme.  The scheme conversion 
 was done using the code provided by the TA for this assignment. 
 
