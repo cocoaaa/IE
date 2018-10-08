@@ -1,7 +1,7 @@
 from __future__ import print_function, division
 
-# import sys
-# sys.path.insert(0, '..')
+import sys
+sys.path.insert(0, '..')
 from nlp_utils import conlleval
 
 
