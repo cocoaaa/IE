@@ -1,5 +1,3 @@
--DOCSTART- -X- -X-
-
 SOCCER NN I-NP O
 - : O O
 JAPAN NNP I-NP I-LOC
