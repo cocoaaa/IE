@@ -1,3 +1,6 @@
+# Assignment 1 report: NER tagging
+- Hayley Song (haejinso@usc.edu)
+
 # Steps
 Before designing a model for named entity recognition, we need to preprocess our input text files.
 
