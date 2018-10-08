@@ -9,7 +9,6 @@ import torch
 import nlp_utils.model_utils as utils
 
 
-
 def evaluate(model, loss_fn, data_iterator, metrics, params, num_steps):
     """Evaluate the model on `num_steps` batches.
 

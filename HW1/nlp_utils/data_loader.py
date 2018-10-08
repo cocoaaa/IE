@@ -1,3 +1,5 @@
+# hjsong
+# reference: github.com/cs230/nlp
 import random,os,joblib
 import numpy as np
 import torch
@@ -93,7 +95,7 @@ class SentenceDatasetsLoader(object):
             random.shuffle(order)
         
         # Single iteration over data
-        pdb.set_trace()
+#         pdb.set_trace()
         for i in range( (dataset['size']+1)//params.batch_size ):
             # Get a batch of sentences and tags 
             batch_sentences = [dataset['data'][i] for i in order[i*params.batch_size: (i+1)*params.batch_size]]
