@@ -64,31 +64,42 @@ For instance, the word "Germany" is represented as the following vector by using
 
 
 1. Initial model with randomly chosen hyperparameters
+Table 1
 ![Table 1](images/crf1_weights.png)
 
-shows how each of these feature contribute the model's performances.
+Table 1 shows how each of these feature contribute the model's performances.
 After training the model with randomly chosen hyperparameters (c1, c2), I inspected the learned weights.
 Many of the features with high values of weights were, unfortunately, specific to particular words. For instance,
 
 
 2. Cross-Validated model
-![Table 2](images/best_crf_performances.png)  
-shows the performances of the best model from the cross-validation on 
-`testa`, and ![Table 3](images/best_crf_weights.png)  
+Table 2 shows the performances of the best model from the cross-validation on `testa`, and Table 3
 shows the learned weights and the label to label transition
-probabilities.  However, we still see that the model "remembered" word-specific features such as (the word itself like "Germany")
+probabilities.  
+
+Table 2
+![Table 2](images/best_crf_performances.png) 
+
+Table 3 
+![Table 3](images/best_crf_weights.png)  
+
+However, we still see that the model "remembered" word-specific features such as (the word itself like "Germany")
 rather than giving a high weight for more generalizable features like POS and suffix.  
 
 3. Regularized model
 Even the best performing model from the cross-validation still suffers from giving high weights to word-spefici features.
-In order to alleviate this, I tried regularization.    
-![Table 4](images/crf_reg_train_performances.png)  
-shows the regularized model's performaces on the training set, and 
+In order to alleviate this, I tried regularization. Table 4 shows the regularized model's performaces on the training set, and 
+Table 5 shows the performances on the dev set (ie. `testa`). Table 6 shows the learned weights and transition probabilities.
+
+Table 4 
+![Table 4](images/crf_reg_train_performances.png) 
+
+Table 5 
 ![Table5](images/crf_reg_dev_performances.png)  
-shows the performances 
-on the dev set (ie. `testa`). 
+
+Table 6 
 ![Table 6](images/crf_reg_weights.png)  
-shows the learned weights and transition probabilities.
+
 
 
 ## Summary
