@@ -11,6 +11,8 @@ It also creates the the following lookup tables:
 - word2idx (dict or json obj)
 - tag2idx (dict or json obj)
 - idx2word (dict or json obj)
+We add START_WORD, STOP_WORD, PAD_WORD to `word2idx`, and 
+PAD_TAG to 'tag2idx`. 
 At the end the processed dictionaries are stored in the `data_dir`.
 
 Please refer to each function's documentation for details.
