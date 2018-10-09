@@ -160,32 +160,91 @@ layer. The second one consists of an embedding layer, a bidirectional LSTM unit 
 ## Model 1: LSTM + FC 
 Each step of the data processing, data loading, model designing, training and evaluations are included in 
 `notebook/ner_rnn.ipynb`. Please refer to the notebook for details. The final model (and several intermediate models) are
-stored in `log/trained_part2`.  In this section, I will summarize my data preprocessing and loading processes 
+stored in `log/progress_10_01`.  In this section, I will summarize my data preprocessing and loading processes 
 as well as the training and evaluation processes. 
 ### a. Data Processing
+Unlike the CRF models, we don't need to hand-engineer the features for our word representation. 
+We use the index mapper (from word to index and tag to index) as we defined in `create_vocab.ipynb` and in the `Step` section above.
+To summarize, we use the most common $N$ words out of the total words that occured in all the datasets provided 
+(`eng:train`, `eng:testa`, `eng:testb`). In our experiments $N$ is set $15,000$ which is half of the number of words 
+that occured at least once in any of the given datasets. I added several extra words: PAD_WORD and UNK_WORD. PAD_WORDs 
+are appended to sentences in a mini-batch to make every sentence of equal length (as to the length of the longest sentence 
+in the mini-batch). UNK_WORD is used to map words that are not in our vocab (because we excluded 15,000 uncommon words). 
+In addition, I assigned a PAD_TAG to indicate the padding words, and START_TAG and STOP_TAG. 
+
+<figure>
+    <img src= 'images/pad_and_unk.png' height="500" width="500"/>
+</figure>
+
 ### b. Data Loader
+When we sample a batch of sentences, the sentences usually have a different length. In a batch of sentences, 
+(`batch_sentences`) with correspoonding batch of tags `batch_tags`, we add PAD_WORD for sentences that have fewer words 
+than SQE_LENGTH (set to maximum length of a sentence in the current `batch_sentences`). Below shows this processing procedure.
+
+```python
+# This is just to show the processing and is not meant to actually run.
+# Maximum sentence lengths in current batch 
+batch_max_len = max([len(s) for s in batch_sentences])
+
+# Intial matrix
+batch_data = word2idx[PAD_WORD]*np.ones((len(batch_sentences), batch_max_len))
+batch_labels = -1*np.ones((len(batch_sentences), batch_max_len))
+
+# Fill in the matrix with current batch sentences and labels
+for i in range(len(batch_sentences)):
+    curr_len = len(batch_sentences[i])
+    batch_data[i][:curr_len] = batch_sentences[i]
+    batch_labels[i][:curr_len] = batch_tags[i]
+
+# Convert to torch.LongTensors (since each entry is an index)
+batch_data = torch.LongTensor(batch_data), torch.LongTensor(batch_labels)
+               
+```
+
 ### c. Model Architecture
+This model is composed of three components.
+- an embedding layer that maps each index in range(vocab_size) to a embedding_dim vector
+- LSTM that takes a sequence (sentence) of words and returns an output of tag for each token in the input.
+- Fully-connected layer that takes in the output of the LSTM unit and converts it to a distribution 
+    over the set of NER tags
+    
+The size of the embedding and the LSTM unit's output dimension are parameters of this model.
+Other parameters I experimented with are `batch_size`, `learning_rate`, and `number of epochs`.
+These settings are stored in `data/{params_name}.json`. For my base model, I tried the following setting:
+
+<figure>
+    <img src= 'images/base_params.png' height="200" width="200"/>
+</figure>
+
+I used the following setting for my cross-validation:
+<figure>
+    <img src= 'images/params1.png' height="200" width="200"/>
+</figure>
+
+I used Adam as my optimizer. 
+
 ### d. Evaulation 
-ignore padding, do entity-level
+For evaluating different models, I used the entity-level average F1 score. This score is calculated by excluding 
+the padded words so that the padding procedure at each mini-batch doesn't affect model evaluations. 
 
-### Analysis
-
-
-preprocessing, padding, how to compute the scores by excluding the padded words' tags (i) 
 ## Model 2: Bidirectional LSTM + CRF
-Please refer to `notebook/ner_lstm_crf.ipynb` for implementation details. The data processing and loading 
-processes are same as in the LSTM + FC model. 
+# 2-2. NER with LSTM + CRF
+Another experiement I ran for the NER task with RNN based models is a bidirectional LSTM + CRF. I trained a Bidirectional LSTM
+to learn the word embeddings and input to output mapping, and passed the output word vectors as input sequences to the CRF
+to learn the output probability over the tag space. Please refer to `notebook/ner_lstm_crf.ipynb` for this model's implementation 
+details. 
+
 ### a. Model architecture
-### b. Evaulation
-### c. Analysis
+Please refer to the `BILASTM_CRF` class in `notebook/bilstm_crf.py` for implementation details.
+This model has the following components:
+- embedding: word embedding layer
+- Bidirectional LSTM unit
+- CRF 
+    - Single FC layer that maps the output of BiLSTM to the tag probabilities
+    - Transition matrix for CRF that indicates the probability of transitioning from tag $j$ to tag $i$
+   
+The CRF internally implements Viterbi algorithm for forward and backward passing to update the transition matrix.
+I used the cross_entropy as the loss function and Adam as the optimizer.
 
-- modification
-- explain the architecture
-- add a figure (draw and take a picture)
-- learning rate?
-
-- viterbi algorithm
-- hyperparameters
-
-
-
+---
+For the prediction on `testb` using RNN-based models, I used the first model (LSTM+FC).
