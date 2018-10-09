@@ -6,7 +6,8 @@ import os
 
 import numpy as np
 import torch
-import nlp_utils.model_utils as utils
+# import nlp_utils.model_utils as utils
+import nlp_utils.model_utils
 
 
 def evaluate(model, loss_fn, data_iterator, metrics, params, num_steps):
@@ -61,7 +62,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     json_path = os.path.join(args.model_dir, 'params.json')
     assert os.path.isfile(json_path), "No json configuration file found at {}".format(json_path)
-    params = utils.Params(json_path)
+    params = model_utils.Params(json_path)
 
     # use GPU if available
     params.cuda = torch.cuda.is_available()     # use GPU is available
@@ -71,7 +72,7 @@ if __name__ == '__main__':
     if params.cuda: torch.cuda.manual_seed(230)
         
     # Get the logger
-    utils.set_logger(os.path.join(args.model_dir, 'evaluate.log'))
+    model_utils.set_logger(os.path.join(args.model_dir, 'evaluate.log'))
 
     # Create the input data pipeline
     logging.info("Creating the dataset...")
@@ -96,10 +97,10 @@ if __name__ == '__main__':
     logging.info("Starting evaluation")
 
     # Reload weights from the saved file
-    utils.load_checkpoint(os.path.join(args.model_dir, args.restore_file + '.pth.tar'), model)
+    model_utils.load_checkpoint(os.path.join(args.model_dir, args.restore_file + '.pth.tar'), model)
 
     # Evaluate
     num_steps = (params.test_size + 1) // params.batch_size
     test_metrics = evaluate(model, loss_fn, test_data_iterator, metrics, params, num_steps)
     save_path = os.path.join(args.model_dir, "metrics_test_{}.json".format(args.restore_file))
-    utils.save_dict_to_json(test_metrics, save_path)
+    model_utils.save_dict_to_json(test_metrics, save_path)

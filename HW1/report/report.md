@@ -105,8 +105,10 @@ rather than giving a high weight for more generalizable features like POS and su
 ## c. Regularized model  
 Even the best performing model from the cross-validation still suffers from giving high weights to word-spefici features.
 In order to alleviate this, I tried regularization. Table 4 shows the regularized model's performaces on the training set, and 
-Table 5 shows the performances on the dev set (ie. `testa`). Table 6 shows the learned weights and transition probabilities.
-
+Table 5 shows the performances on the dev set (ie. `testa`). Table 6 and 7 shows the learned weights and transition probabilities.
+Comparing this result with the result from the initial, randomly guessed hyperparameter setting of c1=c2=0.1, we see a decent improvement. 
+Let's further inspect what the classifier learned. In order to do so, we inspect the learned transition (state to state, i.e label to label)
+probability distribution, and the probability of output labels.
 
 <figure>
     <img src= 'images/crf_reg_train_performances.png' />
@@ -118,27 +120,42 @@ Table 5 shows the performances on the dev set (ie. `testa`). Table 6 shows the l
     <figcaption> Table 5: regularized CRF model performances on dev data</figcaption>    
 </figure>
 
+Let's first take a look at the learned transition matrix. The transition probabilities look reasonable as it shows high probabilities of 
+transitioning from `B-TYPE` to `I-TYPE`. For instance, `I-LOC` to `I-LOC`, `B-MISC` to `I-MISC` and `B-ORG` to `I-ORG` have highest weights.
+Conversely, the model learned that it's unlikely to see a beginning tag of a type to be followed by an intermediate tag of a different type:
+Pr{`B_ORG` -> `t`} are either very close to 0 or negative for any `t` that is not `I-ORG`. `B-PER` shows the same trend. 
+
 <figure>
-    <img src= 'images/crf_reg_weights.png' />
-    <figcaption> Table 6: regularized CRF model's learned parameters</figcaption>    
+    <img src= 'images/best_transition.png' />
+    <figcaption> Table 6: regularized CRF model's transition probabilities</figcaption>    
+</figure>
+
+Now let's examine the weights the model learned from training.
+
+<figure>
+    <img src= 'images/best_weights.png' />
+    <figcaption> Table 7: regularized CRF model's learned weights</figcaption>    
 </figure>
 
 First of all, notice how setting the parameter $c_1$ for the $l_1$ regularizer drove many weights to be close to zero.  
 We can see that the regualization is doing the right job of making the weight parameters sparse. To see if this high regualization 
 hyperparameter for $l_1$ term, we further inspect the transition probabilities and the learned weights. Let's focus on the second
-columns of Table 4 with Table 3. We discussed earlier that the unregularized model memorized specific words word-by-word for deciding 
-whether to output `B-LOC` or not.  All the features with high weights were given to tokens learned from the training dataset, such as 
-"chester-le-street", "gemerny" and "hungary". However, this overfitting is alleviated through increasing the $l_1$ regualization. 
-The regualized model assigns high weights to more generalizable features such as "bos" (i.e. beginning of the sentence), "prev_las2:AT"
-and "last2:ia". We observe this improvement in generalization for other class weights as well.  Column for `Y=I-ORG` shows high weights 
-for features like `word:co`, `last3:oom`, `next_isDigit` and `word:corp` which are all intuitively reasonable (for instance a lot of 
-companies name starts with `Cooporation...`) and not specific to a single training instance, like "Microsoft". For `I-PER` class, 
-the most significant weights were assigned to features like `last2:er`, `last2:on`, `prev_isUpper` and `pos:NNP`.  
-These features in fact match the rules how a human would decide whether an entity is of PERSON.  
+columns of Table 4 with Table 3. We discussed earlier that the unregularized model memorized specific words word-by-word and put 
+large weights on them to compute the output probabilities. Many of the important features were exact instances encountered in the
+training dataset, such as "chester-le-street", "gemerny" and "hungary". However, this overfitting is alleviated through increasing 
+the $l_1$ regualization. The regualized model assigns high weights to more generalizable features such as "bos" 
+(i.e. beginning of the sentence), `prev_las2:AT` and `last2:ia`. We observe this improvement in other classes as well.
+Column for `Y=I-ORG` shows high weights for features like `prev_word:Cooperation`, `word:inc`, `last3:oom`, `next_isDigit` and 
+`next_last3:ker` which are all intuitively reasonable (for instance a lot of companies name starts with `Cooporation...`) and not 
+specific to a single training instance, like "Microsoft". For `I-PER` class, top most important features were `next_pos:NNPS`, 
+`last2:ez`, and `isTitle`.  When I experimented with even larger $l_1$ norm ($c_1$ = 10, $c_2=0.05$), I observed even more sparsity 
+in the weight matrix. In other words, the model selected smaller set of features to be meaningful for the classification. 
+The features also seem to become more generalizable. For instance, for the `I-PER` class, top important features were `last2:er`, 
+`last2:on`, `prev_isUpper` and `pos:NNP`.   These features surprisingly well match how a human would decide whether an entity is of 
+`PERSON`.  
 
 Lastly, I set the regularization weights through 5-fold cross-validation, train the best cv model on the entire `eng:train` 
 and `eng:testa` dataset. 
-
 
 ## Summary
 I used both word-specific features (eg. the word itself, its part-of-speech, suffix and word shapes) as well
@@ -173,7 +190,7 @@ in the mini-batch). UNK_WORD is used to map words that are not in our vocab (bec
 In addition, I assigned a PAD_TAG to indicate the padding words, and START_TAG and STOP_TAG. 
 
 <figure>
-    <img src= 'images/pad_and_unk.png' height="500" width="500"/>
+    <img src= 'images/pad_and_unk.png' height="400"/>
 </figure>
 
 ### b. Data Loader
@@ -248,3 +265,4 @@ I used the cross_entropy as the loss function and Adam as the optimizer.
 
 ---
 For the prediction on `testb` using RNN-based models, I used the first model (LSTM+FC).
+The prediction procedure uses `model_evaluation.py` in the `nlp_utils` folder.
