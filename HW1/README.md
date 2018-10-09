@@ -1,26 +1,33 @@
-# Overview
+# CSC1 699: NER tagging
+This folder is for the assignment 1 of CSCI 699 on NER tagging.
 
-This code repository provides the data, utility functions and evaluation script to help you start your project.
+- nlp_utils: contains helper functions for data processing, loading as well as 
+training and evaluating pytorch models
 
-## Data
-
-Both train, testa and (unlabeled) testb are provided. It's stored in `data/` folder.
-
-## Utility Functions
-
-We provide the functions to:
-
-- Convert CONLL tagging scheme to schemes we are familar with (bio, bioe and bioes).
-- Read and write in CONLL format.
-
-It's stored in `utils/data_converter.py`. The `main()` function illustrates how to use these functions to transform CONLL data.
-
-## Evaluation
-
-The offical evaluation script is written in `perl`, which is hard to integrate with current systems. [Here]() is a re-written version of evalatuion script in python, which I included in `utils/conlleval.py`. 
-
-To run this evaluation script, run command line:
-
-`python conlleval.py ${PREDICTION_FILE}`
-
-Or invoke function `evaluate()` directly on data streams. See `utils/data_converter.py` for examples.
+- notebooks: contains experiments for Part 1 and Part 2. 
+    - `create_voab.ipynb`: shows my data preparation process
+    - `ner_crf.ipynb`: contains CRF based NER tagger
+    - `ner_crf_reg.ipynb`: contains regularied CRF based NER tagger
+    - `ner_rnn_1.ipynb`: contains LSTM + FC NER tagger
+    - `ner_rnn_2.ipynb`: contain Bidirectional LSTM + CRF tagger
+    - `bilstm_crf.py`: contains BILSTM_CRF class definition
+    
+    - `ner_rnn_1_perp_submission.ipynb`: contains predicting on `testb` dataset and
+    post-processing the output to fit the submission format
+    
+- log: contains experiment logs
+    - trained: contains trained models for ner_crf_reg
+    - progress_rnn1_10_09_12_12: contains the most up-to-date LSTM+FC model logs
+    - other folders can be mostly for archive purpose
+- data: contains original CONLL dataset 
+    [todo: remove this for copyright]
+    
+- report: contains the report writeup and images required for the writeup
+    - report.md: this is the report for my experiments
+    - images: a folder that contains figures for the report 
+    - predictions: contains predictions on `testb` dataset
+        - testb_crf_pred.txt: predictions made by CRF model (Part 1)
+        - testb_rnn1_runn2_pred.txt: predictions made by LSTM+FC model (Part 2)
+        
+    
+    
