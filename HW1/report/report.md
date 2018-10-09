@@ -42,8 +42,9 @@ Details will follow in Part 1 and 2 of this report.
 
 
 # Part 1: CRF
-For the implementation of Conditional Random Field(CRF), I used the [sklearn_crf]() library. 
-I got a good amount of ideas from this [tutorial](). The implementation of CRF is based on this [paper]().
+For the implementation of Conditional Random Field(CRF), I used the 
+[sklearn_crf](https://sklearn-crfsuite.readthedocs.io/en/latest/) library. 
+I got a good amount of ideas from this [tutorial](https://sklearn-crfsuite.readthedocs.io/en/latest/tutorial.html#let-s-check-what-classifier-learned). 
 I included detailed steps and explanations with corresponding codes for this part of the assigmenent in
 `notebooks/ner_crf.ipynb`. Please read that file.
 
