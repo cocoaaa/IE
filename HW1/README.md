@@ -23,11 +23,11 @@ training and evaluating pytorch models
     [todo: remove this for copyright]
     
 - report: contains the report writeup and images required for the writeup
-    - report.md: this is the report for my experiments
+    - `report.md`: this is the report for my experiments
     - images: a folder that contains figures for the report 
     - predictions: contains predictions on `testb` dataset
-        - testb_crf_pred.txt: predictions made by CRF model (Part 1)
-        - testb_rnn1_runn2_pred.txt: predictions made by LSTM+FC model (Part 2)
+        - `testb_crf_pred.txt`: predictions made by CRF model (Part 1)
+        - `testb_rnn1_runn2_pred.txt`: predictions made by LSTM+FC model (Part 2)
         
     
     

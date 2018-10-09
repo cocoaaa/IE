@@ -115,3 +115,6 @@
 2018-10-09 14:03:24,186:INFO: - Train metrics: accuracy: 0.988 ; f1_entity: 0.749 ; loss: 0.025
 2018-10-09 14:03:31,297:INFO: - Eval metrics : accuracy: 0.959 ; f1_entity: 0.697 ; loss: 0.239
 2018-10-09 14:03:31,378:INFO: Epoch 35/200
+2018-10-09 14:06:37,057:INFO: - Train metrics: accuracy: 0.990 ; f1_entity: 0.753 ; loss: 0.026
+2018-10-09 14:06:44,155:INFO: - Eval metrics : accuracy: 0.959 ; f1_entity: 0.695 ; loss: 0.246
+2018-10-09 14:06:44,236:INFO: Epoch 36/200
