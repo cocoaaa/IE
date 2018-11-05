@@ -18,7 +18,7 @@ training and evaluating pytorch models
 - log: contains experiment logs
     - trained: contains trained models for ner_crf_reg
     - progress_rnn1_10_09_12_12: contains the most up-to-date LSTM+FC model logs
-    - other folders can be mostly for archive purpose
+    - other folders are mostly there for the archiving purpose
 - data: contains original CONLL dataset 
     [todo: remove this for copyright]
     
