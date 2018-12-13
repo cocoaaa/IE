@@ -5,7 +5,6 @@ import collections
 TEST_DIR = 'data/SemEval2010_task8_scorer-v1.2/'
 
 import pdb
-pdb.set_trace()
 def evaluate(y_true, y_pred):
   """Evaluate the model performance given ground-truth labels and prediction results
   These two lists have to be of same length. The i-th element in each list must refer
