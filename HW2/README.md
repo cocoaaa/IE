@@ -6,11 +6,15 @@ Relation extraction can be viewed as a classification task in which, given a sen
 ## Dataset
 
 ## Repository Organization
-- `data`: 
-- `scripts`
-    - `data_preprocess.py`
-    - `create_train_test.py`
-    - `train_val_split.py`
+- `data
+- `scripts
+	- contains main scripts for model architecture, training and evaluating
 - `notebooks`
+	- contains interactive processes for data processing
 - `report`
+	- Predictions/predictions.txt: final prediction on the test dataset
+	- report.md: final report for HW2
+	- Images: contains images for report
 - README.md
+	
+
