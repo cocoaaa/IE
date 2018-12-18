@@ -11,6 +11,8 @@ Relation extraction can be viewed as a classification task in which, given a sen
 	- contains main scripts for model architecture, training and evaluating
 - `notebooks`
 	- contains interactive processes for data processing
+- `runs`
+	- contains trained models 
 - `report`
 	- Predictions/predictions.txt: final prediction on the test dataset
 	- report.md: final report for HW2
