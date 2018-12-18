@@ -94,7 +94,7 @@ Below is the configuration for the Att-biLSTM model.
 
 ## 4. Performances and Analysis
 1. CNN
-CNN model achieved the accuracy of 78.10%, Micro F1 of 83.04% and Macro F1 of 82.27% 
+CNN model achieved the accuracy of 97.50%, Micro F1 of 97.56% and Macro F1 of 97.53% 
 on the traning set:
 <figure>
     <img src= 'Images/cnn-cnf.png' />
@@ -102,9 +102,11 @@ on the traning set:
         <b>Figure 3: Hyper parameters for training Att-biLSTM model</b> 
     </figcaption>    
 </figure>
-The confusion matrix shows that the CNN based model performed the best in detecting the `Cause-Effect` 
-relationship (90.27% F1) ,wherease it had the most difficulty in classifying the `Instrument-Agency` relationship
-(73.58% F1) and `Other` (49.88% F1).
+The confusion matrix shows that the CNN based model performed the best in detecting the `Member-Collection` 
+relationship (98.41% F1) ,wherease it had the most difficulty in classifying the `Product-Producer` relationship
+(96.31% F1) and `Other` (95.31% F1).
+
+Such high F1 scores hits that the model is likely overfitting to the training data. 
 
 Below is the accuracy and loss curve during the training steps.
 <figure>
@@ -124,7 +126,13 @@ Below is the accuracy and loss curve during the training steps.
 
 2. Attention-based Bidirectional LSTM(`Att-biLSTM`)
 
+<figure>
+    <img src= 'Images/lstm-cnf.png' />
+    <figcaption text-align='center' > 
+        <b>Figure 6: Confusion matrix of Attn BiLSTM on the training set</b> 
+    </figcaption>    
+</figure>
 
-
-
-
+The confusion matrix shows that the CNN based model performed the best in detecting the `Cause-Effect` 
+relationship (90.27% F1) ,wherease it had the most difficulty in classifying the `Instrument-Agency` relationship
+(73.58% F1) and `Other` (49.88% F1).
