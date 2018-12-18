@@ -6,8 +6,8 @@ Relation extraction can be viewed as a classification task in which, given a sen
 ## Dataset
 
 ## Repository Organization
-- `data
-- `scripts
+- `data`
+- `scripts`
 	- contains main scripts for model architecture, training and evaluating
 - `notebooks`
 	- contains interactive processes for data processing
