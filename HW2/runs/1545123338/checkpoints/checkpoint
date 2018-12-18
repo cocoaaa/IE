@@ -1,0 +1,6 @@
+model_checkpoint_path: "/home/hayley/Playground/cnn-relation-extraction/runs/1545123338/checkpoints/model-0.722-31100"
+all_model_checkpoint_paths: "/home/hayley/Playground/cnn-relation-extraction/runs/1545123338/checkpoints/model-0.718-4700"
+all_model_checkpoint_paths: "/home/hayley/Playground/cnn-relation-extraction/runs/1545123338/checkpoints/model-0.718-5400"
+all_model_checkpoint_paths: "/home/hayley/Playground/cnn-relation-extraction/runs/1545123338/checkpoints/model-0.719-6400"
+all_model_checkpoint_paths: "/home/hayley/Playground/cnn-relation-extraction/runs/1545123338/checkpoints/model-0.719-30100"
+all_model_checkpoint_paths: "/home/hayley/Playground/cnn-relation-extraction/runs/1545123338/checkpoints/model-0.722-31100"
